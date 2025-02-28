@@ -83,7 +83,7 @@ def raknaPersoner(filename):
     # Visualize the detections
     fig, ax = plt.subplots(1, figsize=(12,9))
     ax.imshow(image)
-    plt.
+    
     # Loop through the bounding boxes and plot them on the image
     for i, box in enumerate(boxes):
         if scores[i] > threshold and labels[i] == person_class_id:

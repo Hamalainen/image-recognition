@@ -62,13 +62,12 @@ while True:
     boxes = prediction[0]['boxes']  # Bounding boxes of detected objects
     labels = prediction[0]['labels']  # Labels for the detected objects
     scores = prediction[0]['scores']  # Confidence scores for the detections
-
+   
     # Filter out low-confidence detections (e.g., confidence > 0.5)
     threshold = 0.8
     person_class_id = 1  # Class ID for "person" in COCO dataset
 
     person_count = 0
-
     # Loop through the detections and count the people
     for i, score in enumerate(scores):
         if score > threshold and labels[i] == person_class_id:
@@ -80,8 +79,16 @@ while True:
     for i, score in enumerate(scores):
         if score > threshold and labels[i] == person_class_id:
             xmin, ymin, xmax, ymax = boxes[i].tolist()
+
             # Draw the bounding box on the frame
-            cv2.rectangle(frame, (int(xmin), int(ymin)), (int(xmax), int(ymax)), (0, 255, 0), 3)
+            cv2.rectangle(frame, (int(xmin)-3, int(ymin)-3), (int(xmax)+3, int(ymax)+3), (0, 255, 0), 3)
+            # Cropping an image
+            # cropped_image = frame[int(xmin):int(ymin), int(xmax):int(ymax)]
+            cropped_image = frame[int(ymin):int(ymax), int(xmin):int(xmax)]
+
+            # Display cropped image
+            cv2.imwrite("Cropped_Image.jpg", cropped_image)
+
 
     # Display the frame with the detected people
     cv2.imshow("MJPEG Stream - People Detection", frame)
